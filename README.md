@@ -14,6 +14,7 @@ It combines:
 - Donation & giveaway flows
 - Trust-based verified user ecosystem
 - Real-time interactions and notifications
+- Recommendation system
 
 ---
 
@@ -31,6 +32,12 @@ It combines:
 - Like, comment, and share interactions (in progress)
 - Product discovery through social browsing
 - Stories-style UI section
+
+## 🤖 AI & Recommendations
+- Content based recommendation
+- Personalized product feed
+- Smart pricing suggestions
+- Demand and trend prediction
 
 ### 🔍 Smart Search
 - User search overlay (not product search)
@@ -165,7 +172,7 @@ lib/
 
 ---
 
-### 💬 Chat Module (Planned Expansion)
+### 💬 Chat Module
 - Buyer-seller communication
 - Negotiation for rent/price
 
@@ -213,11 +220,11 @@ lib/
 - Core architecture setup
 - Cart system basic logic
 - Social media flow
+- Offer negotiation system
 
 ### 🟡 In Progress
 - Chat system
-- Ratings & reviews
-- Offer negotiation system
+- Recommendation system
 - SOS expansion logic
 
 # 🚀 Future Enhancements 
@@ -249,7 +256,7 @@ lib/
 - Reputation and trust scoring
 - Fraud detection mechanisms
 
-## 🤖 AI & Recommendations
+## 🤖 Advanced AI & Recommendations
 - Personalized product feed
 - Smart pricing suggestions
 - Demand and trend prediction
@@ -290,6 +297,7 @@ To build a **real-world sustainable fashion marketplace** that blends:
 - Circular economy principles
 - Trust-based transactions
 - Scalable backend architecture
+- Machine learning
 
 ---
 
