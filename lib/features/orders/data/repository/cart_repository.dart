@@ -2,13 +2,17 @@ import 'package:loopedin_v2/core/constants/app_enums.dart';
 import 'package:loopedin_v2/core/models/product_model.dart';
 import 'package:loopedin_v2/features/orders/data/datasources/cart_remote_datasource.dart';
 import 'package:loopedin_v2/features/orders/data/models/cart_item_model.dart';
+import 'package:loopedin_v2/features/orders/data/models/offer_model.dart';
 
 class CartRepository {
   final CartRemoteDatasource remote;
 
   CartRepository(this.remote);
 
-  Future<void> addToCart(ProductModel product, PurchaseType type) {
+  Future<void> addToCart(
+      ProductModel product,
+      PurchaseType type,
+      ) {
     return remote.addToCart(
       productId: product.id,
       quantity: 1,
@@ -16,7 +20,22 @@ class CartRepository {
     );
   }
 
-  Future<void> removeFromCart(String productId, PurchaseType type) {
+  Future<void> addOfferToCart(
+      OfferModel offer,
+      ) {
+    return remote.addOfferToCart(
+      productId: offer.prodId,
+      offerId: offer.id,
+      discountedPrice: offer.offerPrice,
+      quantity: 1,
+      availableType: PurchaseType.buy.name,
+    );
+  }
+
+  Future<void> removeFromCart(
+      String productId,
+      PurchaseType type,
+      ) {
     return remote.removeFromCart(
       productId: productId,
       availableType: type.name,
@@ -42,7 +61,8 @@ class CartRepository {
       final product = ProductModel.fromJson(e['products']);
 
       final type = PurchaseType.values.firstWhere(
-            (t) => t.name.toLowerCase() ==
+            (t) =>
+        t.name.toLowerCase() ==
             e['available_type'].toString().toLowerCase(),
         orElse: () => PurchaseType.buy,
       );
@@ -52,6 +72,9 @@ class CartRepository {
         type: type,
         quantity: e['quantity'] ?? 1,
         isSelected: true,
+        offerId: e['offer_id'],
+        discountedPrice:
+        (e['discounted_price'] as num?)?.toDouble(),
       );
     }).toList();
   }

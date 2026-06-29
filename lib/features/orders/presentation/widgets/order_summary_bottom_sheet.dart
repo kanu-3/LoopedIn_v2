@@ -26,8 +26,8 @@ class OrderSummaryBottomSheet extends StatelessWidget {
       final p = item.product;
 
       final basePrice = item.type == PurchaseType.buy
-          ? (p.price ?? 0.0)
-          : (p.rentPricePerDay ?? 0.0);
+          ? (item.discountedPrice ?? p.price ?? 0)
+          : (p.rentPricePerDay ?? 0);
 
       subtotal += basePrice * item.quantity;
 

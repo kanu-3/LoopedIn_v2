@@ -66,7 +66,11 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget{
                     ),
                   ),
                 ),
-                IconButton(onPressed: (){},
+                IconButton(onPressed: (){
+                  context.push(
+                    RoutePaths.createSos,
+                  );
+                },
                     icon: Icon(AssetPaths.bell, color: AppColors.bg,)),
                 IconButton(onPressed: (){
                   context.push(

@@ -49,6 +49,7 @@ class AssetPaths {
   static const IconData chat = Icons.chat_rounded;
   static const IconData profile = Icons.person_2_rounded;
 
+  static const IconData rewards = Icons.card_giftcard_rounded;
   static const IconData search = Icons.search;
   static const IconData bell = Icons.notifications_none_rounded;
   static const IconData filter = Icons.filter_list_rounded;
@@ -92,7 +93,8 @@ class AssetPaths {
   static const IconData bookmark_outline= Icons.bookmark_border;
   static const IconData checked_rounded= Icons.check_circle;
   static const IconData check_rounded= Icons.circle_outlined;
-
+  static const IconData circle= Icons.circle;
+  static const IconData send= Icons.send;
   // gifs
   static const success= 'assets/images/success.gif';
   static const loader= 'assets/images/loader.gif';

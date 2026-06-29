@@ -17,6 +17,7 @@ class OrderNotifier
     required String buyerName,
     required String buyerPhone,
     required String deliveryAddress,
+    required double totalPrice,
   }) async {
     try {
       state = state.copyWith(
@@ -27,8 +28,8 @@ class OrderNotifier
         items: items,
         buyerName: buyerName,
         buyerPhone: buyerPhone,
-        deliveryAddress:
-        deliveryAddress,
+        deliveryAddress: deliveryAddress,
+        totalPrice: totalPrice,
       );
 
       await Future.wait([

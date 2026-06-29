@@ -6,12 +6,14 @@ class ChatModel {
   final String lastMessage;
   final DateTime lastMessageTime;
   final int unreadCount;
+  final bool isLastMessageMine;
 
   const ChatModel({
-   required this.roomId,
-   required this.otherUser,
+    required this.roomId,
+    required this.otherUser,
     required this.lastMessage,
     required this.lastMessageTime,
     required this.unreadCount,
-});
+    required this.isLastMessageMine,
+  });
 }

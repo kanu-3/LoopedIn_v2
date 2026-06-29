@@ -9,19 +9,23 @@ import 'package:loopedin_v2/core/services/supabase_service.dart';
 import 'package:loopedin_v2/core/theme/text_theme.dart';
 import 'package:loopedin_v2/core/widgets/buttons/app_button.dart';
 import 'package:loopedin_v2/core/widgets/common/app_header.dart';
+import 'package:loopedin_v2/features/orders/data/models/cart_item_model.dart';
 import 'package:loopedin_v2/features/profile/presentation/widgets/address_edit_overlay.dart';
 import 'package:loopedin_v2/features/profile/providers/provider/profile_provider.dart';
 
 class CheckoutScreen extends ConsumerStatefulWidget {
   final double total;
+  final List<CartItemUIModel> items;
 
   const CheckoutScreen({
     super.key,
     required this.total,
+    required this.items,
   });
 
   @override
-  ConsumerState<CheckoutScreen> createState() => _CheckoutScreenState();
+  ConsumerState<CheckoutScreen> createState() =>
+      _CheckoutScreenState();
 }
 
 class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
@@ -162,7 +166,10 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
               onPressed: () {
                 context.push(
                   RoutePaths.payment,
-                  extra: {"total": widget.total},
+                  extra: {
+                    "total": widget.total,
+                    "items": widget.items,
+                  },
                 );
               },
             ),

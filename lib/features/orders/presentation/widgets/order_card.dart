@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loopedin_v2/core/constants/core_colors.dart';
+import 'package:loopedin_v2/core/constants/routes_paths.dart';
 import 'package:loopedin_v2/features/orders/data/models/order_model.dart';
-import 'package:loopedin_v2/features/orders/presentation/screens/order_details_screen.dart';
 import 'package:loopedin_v2/features/orders/presentation/widgets/order_status_chip.dart';
 
 class OrderCard extends StatelessWidget {
@@ -17,19 +19,18 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) =>
-                OrderDetailScreen(order: order),
-          ),
+        context.push(
+          RoutePaths.orderdetails,
+          extra: order,
         );
       },
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(
+            color: CoreColors.grey300,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +45,9 @@ class OrderCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                OrderStatusChip(status: order.status),
+                OrderStatusChip(
+                  status: order.status,
+                ),
               ],
             ),
 
@@ -69,9 +72,9 @@ class OrderCard extends StatelessWidget {
             Text(
               isSeller
                   ? "Buyer: ${order.buyerName}"
-                  : "Seller: ${order.sellerId}",
+                  : "Seller: ${order.sellerId.substring(0, 6)}",
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: CoreColors.grey600,
               ),
             ),
           ],

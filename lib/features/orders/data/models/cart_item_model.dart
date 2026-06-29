@@ -7,11 +7,16 @@ class CartItemUIModel {
   final int quantity;
   final bool isSelected;
 
+  final String? offerId;
+  final double? discountedPrice;
+
   const CartItemUIModel({
     required this.product,
     required this.type,
     required this.quantity,
     this.isSelected = true,
+    this.offerId,
+    this.discountedPrice,
   });
 
   CartItemUIModel copyWith({
@@ -19,12 +24,17 @@ class CartItemUIModel {
     PurchaseType? type,
     int? quantity,
     bool? isSelected,
+    String? offerId,
+    double? discountedPrice,
   }) {
     return CartItemUIModel(
       product: product ?? this.product,
       type: type ?? this.type,
       quantity: quantity ?? this.quantity,
       isSelected: isSelected ?? this.isSelected,
+      offerId: offerId ?? this.offerId,
+      discountedPrice:
+      discountedPrice ?? this.discountedPrice,
     );
   }
 }

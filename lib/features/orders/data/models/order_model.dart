@@ -5,17 +5,12 @@ class OrderModel {
   final String id;
   final String sellerId;
   final String buyerId;
-
   final String buyerName;
   final String buyerPhone;
   final String deliveryAddress;
-
   final double totalPrice;
-
   final order_status status;
-
   final DateTime createdAt;
-
   final List<OrderItemModel> items;
 
   const OrderModel({

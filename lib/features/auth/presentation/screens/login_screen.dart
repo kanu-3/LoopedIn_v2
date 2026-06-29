@@ -188,6 +188,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           context.gapL,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Email',
                             hintText: 'Enter your email',
                             controller: _emailController,
@@ -206,6 +207,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           context.gapM,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Password',
                             hintText: 'Enter your password',
                             controller: _passwordController,

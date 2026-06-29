@@ -44,4 +44,10 @@ class CoreColors {
   static const Color cat03= Color(0xFFE2D8D6);
   static const Color cat04= Color(0xFFFC8AAE);
   static const Color cat05= Color(0xFF8AB4FC);
+
+  static const Color pending = Color(0xFFFFCC80);
+  static const Color accepted = Color(0xFFA5D6A7);
+  static const Color rejected = Color(0xFFEF9A9A);
+  static const Color green = Color(0xFF4CAF50);
+
 }

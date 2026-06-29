@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loopedin_v2/core/widgets/common/app_empty_widget.dart';
 import 'package:loopedin_v2/features/orders/presentation/widgets/order_card.dart';
-import 'package:loopedin_v2/features/orders/providers/order_provider.dart';
+import 'package:loopedin_v2/features/orders/providers/providers/order_provider.dart';
 
 class SellerOrdersTab extends ConsumerWidget {
   const SellerOrdersTab({super.key});
@@ -11,9 +12,8 @@ class SellerOrdersTab extends ConsumerWidget {
     final orders = ref.watch(orderProvider).receivedOrders;
 
     if (orders.isEmpty) {
-      return const Center(
-        child: Text("No incoming orders"),
-      );
+      return AppEmptyWidget(title: "No incoming orders", subtitle: "Your orders appear here");
+
     }
 
     return ListView.separated(

@@ -86,4 +86,17 @@ class ProductModel {
       createdAt: DateTime.parse(data['created_at']),
     );
   }
+
+  double get basePrice {
+    switch (availability) {
+      case product_availability.sell:
+        return price ?? 0.0;
+
+      case product_availability.rent:
+        return rentPricePerDay ?? 0.0;
+
+      case product_availability.both:
+        return price ?? rentPricePerDay ?? 0.0;
+    }
+  }
 }

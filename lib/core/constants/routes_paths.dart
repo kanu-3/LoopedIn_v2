@@ -31,4 +31,15 @@ class RoutePaths {
   static const cart= '/cart';
   static const checkout= '/checkout';
   static const payment= '/payment';
+  static const orders= '/orders';
+  static const offers= '/offers';
+  static const offerdetails= '/offerdetails';
+  static const orderdetails= '/orderdetails';
+  static const sosStatus = '/sos-status';
+  static const chatRoom = '/chat/:roomId';
+  static const acceptedUsers= '/acceptedUsers';
+  static const createSos= '/createSos';
+  static const sosDetails= '/sosDetails';
+  static const sosFeed= '/sosFeed';
+  static const mySos= '/mySos';
 }

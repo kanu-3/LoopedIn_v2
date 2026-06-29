@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loopedin_v2/core/models/profile_model.dart';
 import 'package:loopedin_v2/core/services/supabase_service.dart';
 import 'package:loopedin_v2/features/profile/data/repositories/profile_repository.dart';
 import 'package:loopedin_v2/features/profile/providers/states/profile_state.dart';
@@ -106,6 +107,16 @@ class ProfileNotifier extends StateNotifier<ProfileState> {
         );
       }
     }
+
+  Future<ProfileModel?> getProfile(String userId) async {
+    try {
+      final profile = await repository.fetchProfile(userId);
+      return profile;
+    } catch (e) {
+      debugPrint("❌ GetProfile Error: $e");
+      return null;
+    }
+  }
 
     Future<bool> updateField({
       required String table,

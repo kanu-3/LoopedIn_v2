@@ -188,24 +188,32 @@ class MyAccountScreen extends ConsumerWidget {
                               },
                             ),
                             AccountTile(
-                              title: "Emergency",
-                              leading: Icon(AssetPaths.emergency),
-                              onTap: () {},
+                              title: "My Offers",
+                              leading: Icon(AssetPaths.rewards),
+                              onTap: () {
+                                context.push(RoutePaths.offers);
+                              },
                             ),
                             AccountTile(
                               title: "Donate",
                               leading: Icon(AssetPaths.donate),
-                              onTap: () {},
+                              onTap: () {
+                                context.push(RoutePaths.mySos);
+                              },
                             ),
                             AccountTile(
                               title: "My orders",
                               leading: Icon(AssetPaths.order),
-                              onTap: () {},
+                              onTap: () {
+                                context.go(RoutePaths.orders);
+                              },
                             ),
                             AccountTile(
                               title: "Settings",
                               leading: Icon(AssetPaths.settings),
-                              onTap: () {},
+                              onTap: () {
+                                context.push(RoutePaths.sosFeed);
+                              },
                             ),
                             AccountTile(
                               title: "Help Center",

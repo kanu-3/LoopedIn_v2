@@ -12,7 +12,9 @@ import 'package:loopedin_v2/core/utils/app_snackbar.dart';
 import 'package:loopedin_v2/core/widgets/common/app_header.dart';
 import 'package:loopedin_v2/core/widgets/common/network_image_carousel.dart';
 import 'package:loopedin_v2/core/widgets/dialogs/confirm_dialog.dart';
+import 'package:loopedin_v2/features/chat/providers/provider/chat_provider.dart';
 import 'package:loopedin_v2/features/home/providers/home_providers.dart';
+import 'package:loopedin_v2/features/orders/presentation/widgets/offer_bottom_sheet.dart';
 import 'package:loopedin_v2/features/orders/providers/notifiers/cart_notifier.dart';
 import 'package:loopedin_v2/features/products/presentation/widgets/product_action_bar.dart';
 import 'package:loopedin_v2/features/products/presentation/widgets/product_attribute_grid.dart';
@@ -21,9 +23,7 @@ import 'package:loopedin_v2/features/products/presentation/widgets/products_pric
 import 'package:loopedin_v2/features/products/presentation/widgets/purchase_type_selector_sheet.dart';
 import 'package:loopedin_v2/features/products/presentation/widgets/seller_card.dart';
 import 'package:loopedin_v2/features/products/providers/providers/product_provider.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loopedin_v2/features/profile/providers/provider/profile_provider.dart';
 
 class ProductDetailsScreen extends ConsumerStatefulWidget {
   final ProductModel product;
@@ -55,7 +55,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
     PurchaseType? selectedType;
 
-    // 1. Handle Selection if product offers both buy and rent
     if (hasBuy && hasRent) {
       selectedType = await showModalBottomSheet<PurchaseType>(
         context: context,
@@ -65,13 +64,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         builder: (_) => const PurchaseTypeSelectorSheet(),
       );
 
-      if (selectedType == null) return; // User cancelled the modal
+      if (selectedType == null) return;
     } else {
-      // 2. Automatically resolve if only one method is available
       selectedType = hasBuy ? PurchaseType.buy : PurchaseType.rent;
     }
 
-    // 3. Dispatch action to the Riverpod Cart Provider
     ref.read(cartProvider.notifier).addToCart(product, selectedType, context);
 
     if (mounted) {
@@ -149,8 +146,27 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   ),
                   ProductPriceSection(
                     product: widget.product,
-                    onChat: () {
-                      // Open chat with seller
+                    onChat: () async {
+                      final repo = ref.read(chatRepositoryProvider);
+
+                      final currentUserId =
+                          SupabaseService.client.auth.currentUser!.id;
+
+                      final roomId = await repo.getOrCreateRoom(
+                        currentUserId,
+                        widget.product.sellerId,
+                      );
+
+                      if (!context.mounted) return;
+
+                      context.push(
+                        '/chat/$roomId',
+                        extra: {
+                          'otherUser': await ref
+                              .read(profileProvider.notifier)
+                              .getProfile(widget.product.sellerId),
+                        },
+                      );
                     },
                   ),
                   Padding(
@@ -182,7 +198,15 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
             onAddToCart: () => _handleAddToCart(widget.product),
             onOffer: () {
-              // offer flow
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (_) => OfferBottomSheet(
+                  originalPrice: widget.product.basePrice,
+                  prodId: widget.product.id,
+                  sellerId: widget.product.sellerId,
+                ),
+              );
             },
 
             onEdit: () {

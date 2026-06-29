@@ -21,7 +21,7 @@ class AppTextField extends StatefulWidget {
     this.onChanged,
     this.textColor = AppColors.blacktext,
     this.labelColor = AppColors.blacktext,
-    this.focusLabelColor = AppColors.whitetext,
+    this.focusLabelColor,
     this.borderColor = AppColors.main,
     this.fillColor = AppColors.whitetext,
     this.focusFillColor,
@@ -42,9 +42,10 @@ class AppTextField extends StatefulWidget {
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
   final List<TextInputFormatter>? inputFormatters;
+
   final Color textColor;
   final Color labelColor;
-  final Color focusLabelColor;
+  final Color? focusLabelColor;
   final Color borderColor;
   final Color fillColor;
   final Color? focusFillColor;
@@ -63,6 +64,9 @@ class _AppTextFieldState extends State<AppTextField> {
     final effectiveFocusFill =
         widget.focusFillColor ?? Colors.white.withOpacity(0.09);
 
+    final focusLabelColor =
+        widget.focusLabelColor ?? Theme.of(context).colorScheme.primary;
+
     return Focus(
       onFocusChange: (value) {
         setState(() {
@@ -76,25 +80,23 @@ class _AppTextFieldState extends State<AppTextField> {
         readOnly: widget.readOnly,
         onTap: widget.onTap,
         onChanged: widget.onChanged,
-
+        inputFormatters: widget.inputFormatters,
         style: TextStyle(
           color: widget.textColor,
         ),
-
         maxLines: widget.isPassword ? 1 : widget.maxLines,
         obscureText: widget.isPassword ? obscureText : false,
-
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
 
           labelStyle: TextStyle(
-            color: isFocused ? widget.focusLabelColor : widget.labelColor,
+            color: isFocused ? focusLabelColor : widget.labelColor,
             fontSize: context.scaledFont(16),
           ),
 
           floatingLabelStyle: TextStyle(
-            color: widget.focusLabelColor,
+            color: focusLabelColor,
             fontWeight: FontWeight.w500,
           ),
 
@@ -116,14 +118,16 @@ class _AppTextFieldState extends State<AppTextField> {
               obscureText
                   ? AssetPaths.eye_close
                   : AssetPaths.eye_visible,
-              color: widget.suffixIconColor ?? widget.labelColor,
+              color:
+              widget.suffixIconColor ?? widget.labelColor,
             ),
           )
               : widget.suffixIcon,
 
           filled: true,
-          fillColor:
-          isFocused ? effectiveFocusFill : widget.fillColor.withOpacity(0.05),
+          fillColor: isFocused
+              ? effectiveFocusFill
+              : widget.fillColor.withOpacity(0.05),
 
           contentPadding: EdgeInsets.symmetric(
             horizontal: context.spacingS,

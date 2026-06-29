@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:loopedin_v2/core/extensions/context_extensions.dart';
+import 'package:loopedin_v2/core/theme/text_theme.dart';
+import 'package:loopedin_v2/core/widgets/common/app_header.dart';
 import 'package:loopedin_v2/features/orders/data/models/order_model.dart';
+import 'package:loopedin_v2/features/orders/presentation/widgets/order_info_card.dart';
+import 'package:loopedin_v2/features/orders/presentation/widgets/order_item_card.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   final OrderModel order;
@@ -12,42 +17,40 @@ class OrderDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Order Details"),
+      appBar: const AppHeader(
+        title: "Order Details",
+        showBackButton: true,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(12),
-        children: [
-          Text(
-            "Order ID: ${order.id}",
-          ),
+      body: SingleChildScrollView(
+        padding: context.bodypad,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            OrderInfoCard(
+              order: order,
+            ),
 
-          const SizedBox(height: 10),
+            context.gapL,
 
-          Text(
-            "Total: ₹${order.totalPrice}",
-          ),
+            Text(
+              "Items",
+              style: AppTextTheme.textTheme.titleLarge,
+            ),
 
-          const SizedBox(height: 10),
+            context.gapM,
 
-          Text(
-            "Delivery: ${order.deliveryAddress}",
-          ),
-
-          const Divider(),
-
-          ...order.items.map(
-                (item) => ListTile(
-              title: Text(item.product.title),
-              subtitle: Text(
-                "Qty: ${item.quantity}",
-              ),
-              trailing: Text(
-                "₹${item.price}",
+            ...order.items.map(
+                  (item) => Padding(
+                padding: EdgeInsets.only(
+                  bottom: context.spacingM,
+                ),
+                child: OrderItemCard(
+                  item: item,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

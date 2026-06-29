@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loopedin_v2/core/constants/app_colors.dart';
 import 'package:loopedin_v2/core/constants/app_enums.dart';
 import 'package:loopedin_v2/core/constants/asset_paths.dart';
+import 'package:loopedin_v2/core/constants/core_colors.dart';
 import 'package:loopedin_v2/core/extensions/context_extensions.dart';
 import 'package:loopedin_v2/features/orders/data/models/cart_item_model.dart';
 import 'package:loopedin_v2/features/orders/providers/notifiers/cart_notifier.dart';
@@ -102,14 +103,37 @@ class CartItemTile extends ConsumerWidget {
                           mainAxisAlignment:
                           MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              item.type == PurchaseType.buy
-                                  ? "₹${product.price?.toStringAsFixed(0) ?? '0'}"
-                                  : "₹${product.rentPricePerDay?.toStringAsFixed(0) ?? '0'}/day",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                            if (item.type == PurchaseType.buy &&
+                                item.discountedPrice != null)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "₹${item.discountedPrice!.toStringAsFixed(0)}",
+                                    style:  TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.main,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  Text(
+                                    "₹${product.price?.toStringAsFixed(0) ?? '0'}",
+                                    style: const TextStyle(
+                                      decoration: TextDecoration.lineThrough,
+                                      color: CoreColors.grey700,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            else
+                              Text(
+                                item.type == PurchaseType.buy
+                                    ? "₹${product.price?.toStringAsFixed(0) ?? '0'}"
+                                    : "₹${product.rentPricePerDay?.toStringAsFixed(0) ?? '0'}/day",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
 
                             Row(
                               children: [

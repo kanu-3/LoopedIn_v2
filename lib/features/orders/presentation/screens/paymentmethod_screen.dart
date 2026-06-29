@@ -5,7 +5,6 @@ import 'package:loopedin_v2/core/constants/asset_paths.dart';
 import 'package:loopedin_v2/core/constants/core_colors.dart';
 import 'package:loopedin_v2/core/constants/routes_paths.dart';
 import 'package:loopedin_v2/core/extensions/context_extensions.dart';
-import 'package:loopedin_v2/core/services/supabase_service.dart';
 import 'package:loopedin_v2/core/theme/text_theme.dart';
 import 'package:loopedin_v2/core/utils/app_snackbar.dart';
 import 'package:loopedin_v2/core/widgets/buttons/app_button.dart';
@@ -13,8 +12,12 @@ import 'package:loopedin_v2/core/widgets/common/app_header.dart';
 import 'package:loopedin_v2/core/widgets/dialogs/app_success_dialog.dart';
 import 'package:loopedin_v2/core/widgets/dialogs/confirm_dialog.dart';
 import 'package:loopedin_v2/features/orders/data/models/cart_item_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:loopedin_v2/features/orders/providers/notifiers/cart_notifier.dart';
+import 'package:loopedin_v2/features/orders/providers/providers/order_provider.dart';
+import 'package:loopedin_v2/features/profile/providers/provider/profile_provider.dart';
 
-class PaymentMethodScreen extends StatefulWidget {
+class PaymentMethodScreen extends ConsumerStatefulWidget {
   final double total;
   final List<CartItemUIModel> items;
 
@@ -25,53 +28,31 @@ class PaymentMethodScreen extends StatefulWidget {
   });
 
   @override
-  State<PaymentMethodScreen> createState() =>
+  ConsumerState<PaymentMethodScreen> createState() =>
       _PaymentMethodScreenState();
 }
 
-class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
+class _PaymentMethodScreenState
+    extends ConsumerState<PaymentMethodScreen> {
   String? selectedMethod;
 
   final methods = const [
     "UPI",
     "Card",
     "Wallet",
-    "Cash on Delivery"
+    "Cash on Delivery",
   ];
-
-  Future<void> _finalizeOrder() async {
-    final client = SupabaseService.client;
-
-    // 1. update stock
-    for (final item in widget.items) {
-      final product = item.product;
-
-      final remaining = product.quantity - item.quantity;
-
-      if (remaining <= 0) {
-        await client.from('products').update({
-          'quantity': 0,
-          'status': 'sold',
-        }).eq('id', product.id);
-      } else {
-        await client.from('products').update({
-          'quantity': remaining,
-        }).eq('id', product.id);
-      }
-    }
-
-    // 2. clear cart
-    // NOTE: must be called from outside via provider OR callback
-  }
 
   @override
   Widget build(BuildContext context) {
+    final profileState = ref.watch(profileProvider);
+    final profile = profileState.profile;
+
     return Scaffold(
       appBar: const AppHeader(
         title: "Payment",
         showBackButton: true,
       ),
-
       body: Padding(
         padding: EdgeInsets.all(context.spacingL),
         child: Column(
@@ -88,8 +69,9 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               final isSelected = selectedMethod == method;
 
               return GestureDetector(
-                onTap: () =>
-                    setState(() => selectedMethod = method),
+                onTap: () {
+                  setState(() => selectedMethod = method);
+                },
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(14),
@@ -138,6 +120,15 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   return;
                 }
 
+                if (profile == null) {
+                  AppSnackBar.show(
+                    context,
+                    message: "Profile not found",
+                    isError: true,
+                  );
+                  return;
+                }
+
                 final confirmed = await ConfirmDialog.show(
                   context: context,
                   title: "Confirm Payment",
@@ -149,28 +140,46 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
 
                 if (confirmed != true || !mounted) return;
 
+                final orderNotifier =
+                ref.read(orderProvider.notifier);
 
-                await _finalizeOrder();
+                final success = await orderNotifier.placeOrder(
+                  items: widget.items,
+                  buyerName: profile.name,
+                  buyerPhone: profile.phoneNo,
+                  deliveryAddress: profile.defaultAddress,
+                  totalPrice: widget.total,
+                );
+                await ref.read(cartProvider.notifier).loadCart();
+                await ref.read(orderProvider.notifier).fetchBuyerOrders();
+                await ref.read(orderProvider.notifier).fetchSellerOrders();
+                if (!success) {
+                  AppSnackBar.show(
+                    context,
+                    message: "Order failed. Try again.",
+                    isError: true,
+                  );
+                  return;
+                }
 
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (dialogCtx) =>
-                      AppSuccessDialog(
-                        title: "Success",
-                        subtitle:
-                        "Your order has been placed successfully",
-                        primaryText: "View Orders",
-                        secondaryText: "Continue Shopping",
-                        onPrimaryTap: () {
-                          Navigator.pop(dialogCtx);
-                          context.go(RoutePaths.home);
-                        },
-                        onSecondaryTap: () {
-                          Navigator.pop(dialogCtx);
-                          context.go(RoutePaths.home);
-                        },
-                      ),
+                  builder: (dialogCtx) => AppSuccessDialog(
+                    title: "Success",
+                    subtitle:
+                    "Your order has been placed successfully",
+                    primaryText: "View Orders",
+                    secondaryText: "Continue Shopping",
+                    onPrimaryTap: () {
+                      Navigator.pop(dialogCtx);
+                      context.go(RoutePaths.orders);
+                    },
+                    onSecondaryTap: () {
+                      Navigator.pop(dialogCtx);
+                      context.go(RoutePaths.home);
+                    },
+                  ),
                 );
               },
             ),

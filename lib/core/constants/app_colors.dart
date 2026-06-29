@@ -16,4 +16,5 @@ class AppColors {
   static const disabled = CoreColors.grey400;
   static const onError= CoreColors.red;
   static const dislike= CoreColors.orange;
+
 }

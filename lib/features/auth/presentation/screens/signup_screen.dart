@@ -158,6 +158,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           context.gapL,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Name',
                             hintText: 'Enter your name',
                             controller: _nameController,
@@ -174,6 +175,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           context.gapM,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Username',
                             hintText: 'Enter username',
                             controller: _usernameController,
@@ -190,6 +192,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           context.gapM,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Phone',
                             hintText: 'Enter phone number',
                             controller: _phoneController,
@@ -207,6 +210,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           context.gapM,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Email',
                             hintText: 'Enter email',
                             controller: _emailController,
@@ -224,6 +228,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           context.gapM,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Password',
                             hintText: 'Enter password',
                             controller: _passwordController,
@@ -242,6 +247,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           context.gapM,
 
                           AppTextField(
+                            focusLabelColor: AppColors.whitetext,
                             labelText: 'Confirm Password',
                             hintText: 'Re-enter password',
                             controller: _confirmpasswordController,

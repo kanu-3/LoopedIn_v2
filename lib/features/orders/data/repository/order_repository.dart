@@ -13,13 +13,14 @@ class OrderRepository {
     required String buyerName,
     required String buyerPhone,
     required String deliveryAddress,
+    required double totalPrice,
   }) {
     return remote.placeOrder(
       items: items,
       buyerName: buyerName,
       buyerPhone: buyerPhone,
-      deliveryAddress:
-      deliveryAddress,
+      deliveryAddress: deliveryAddress,
+      totalPrice: totalPrice,
     );
   }
 

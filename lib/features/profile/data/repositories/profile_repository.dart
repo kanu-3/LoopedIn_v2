@@ -1,7 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:loopedin_v2/core/models/profile_model.dart';
+import 'package:loopedin_v2/core/services/supabase_service.dart';
 import 'package:loopedin_v2/features/profile/data/datasources/profile_remote_datasource.dart';
+import 'package:loopedin_v2/features/profile/data/repositories/profile_repository.dart' as prefix0;
+import 'package:loopedin_v2/features/profile/providers/notifiers/seller_profile_notifier.dart';
+import 'package:loopedin_v2/features/profile/providers/states/seller_profile_state.dart';
 
 class ProfileRepository {
   final ProfileRemoteDataSource remote;
@@ -43,4 +48,26 @@ class ProfileRepository {
       value: value,
     );
   }
+
 }
+
+final profileDatasourceProvider = Provider(
+      (ref) => ProfileRemoteDataSource(
+    SupabaseService.client,
+  ),
+);
+
+final profileRepositoryProvider = Provider(
+      (ref) => ProfileRepository(
+    ref.read(profileDatasourceProvider),
+  ),
+);
+
+final sellerProfileProvider =
+StateNotifierProvider<SellerProfileNotifier, SellerProfileState>(
+      (ref) {
+    return SellerProfileNotifier(
+      ref.read(profileRepositoryProvider as ProviderListenable<prefix0.ProfileRepository>),
+    );
+  },
+);

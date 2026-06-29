@@ -5,6 +5,7 @@ import 'package:loopedin_v2/core/services/supabase_service.dart';
 import 'package:loopedin_v2/core/utils/app_snackbar.dart';
 import 'package:loopedin_v2/features/orders/data/datasources/cart_remote_datasource.dart';
 import 'package:loopedin_v2/features/orders/data/models/cart_item_model.dart';
+import 'package:loopedin_v2/features/orders/data/models/offer_model.dart';
 import 'package:loopedin_v2/features/orders/data/repository/cart_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -140,5 +141,32 @@ class CartNotifier extends StateNotifier<List<CartItemUIModel>> {
         else
           item
     ];
+  }
+
+  Future<void> addOfferToCart(
+      OfferModel offer,
+      BuildContext context,
+      ) async {
+    try {
+      await repo.addOfferToCart(offer);
+
+      await loadCart();
+
+      if (context.mounted) {
+        AppSnackBar.show(
+          context,
+          message: "Offer added to cart",
+          isError: false,
+        );
+      }
+    } catch (_) {
+      if (context.mounted) {
+        AppSnackBar.show(
+          context,
+          message: "Failed to add offer",
+          isError: true,
+        );
+      }
+    }
   }
 }

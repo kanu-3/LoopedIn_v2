@@ -10,7 +10,6 @@ import 'package:loopedin_v2/features/orders/presentation/widgets/cart_item_tile.
 import 'package:loopedin_v2/features/orders/presentation/widgets/order_summary_bottom_sheet.dart';
 import 'package:loopedin_v2/features/orders/providers/notifiers/cart_notifier.dart';
 
-
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
 
@@ -66,7 +65,10 @@ class CartScreen extends ConsumerWidget {
 
                 context.push(
                   RoutePaths.checkout,
-                  extra: {"total": total},
+                  extra: {
+                    "total": total,
+                    "items": selectedItems,
+                  },
                 );
               },
             ),

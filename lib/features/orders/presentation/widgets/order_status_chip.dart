@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loopedin_v2/core/constants/app_enums.dart';
+import 'package:loopedin_v2/core/constants/core_colors.dart';
 
 class OrderStatusChip extends StatelessWidget {
   final order_status status;
@@ -12,13 +13,13 @@ class OrderStatusChip extends StatelessWidget {
   Color _color() {
     switch (status) {
       case order_status.pending:
-        return Colors.orange;
+        return CoreColors.pending;
       case order_status.shipped:
-        return Colors.blue;
+        return CoreColors.main;
       case order_status.completed:
-        return Colors.green;
+        return CoreColors.accepted;
       case order_status.cancelled:
-        return Colors.red;
+        return CoreColors.rejected;
     }
   }
 

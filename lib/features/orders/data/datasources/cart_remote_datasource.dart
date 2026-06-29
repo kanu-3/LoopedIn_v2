@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartRemoteDatasource {
@@ -5,28 +6,66 @@ class CartRemoteDatasource {
 
   CartRemoteDatasource(this.client);
 
+  String get _uid => client.auth.currentUser!.id;
+
   Future<void> addToCart({
     required String productId,
     required int quantity,
     required String availableType,
   }) async {
     try {
-      final userId = client.auth.currentUser!.id;
-
       final response = await client
           .from('cart')
-          .upsert({
-        'user_id': userId,
-        'prod_id': productId,
-        'quantity': quantity,
-        'available_type': availableType.toLowerCase(),
-      }, onConflict: 'user_id,prod_id,available_type')
+          .upsert(
+        {
+          'user_id': _uid,
+          'prod_id': productId,
+          'quantity': quantity,
+          'available_type': availableType,
+        },
+        onConflict: 'user_id,prod_id,available_type',
+      )
           .select();
 
-      print("CART SUCCESS: $response");
+      debugPrint("NORMAL CART INSERT");
+      debugPrint(response.toString());
     } catch (e, st) {
-      print("CART ERROR: $e");
-      print(st);
+      debugPrint("NORMAL CART ERROR");
+      debugPrint(e.toString());
+      debugPrint(st.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> addOfferToCart({
+    required String productId,
+    required String offerId,
+    required double discountedPrice,
+    required int quantity,
+    required String availableType,
+  }) async {
+    try {
+      final response = await client
+          .from('cart')
+          .upsert(
+        {
+          'user_id': _uid,
+          'prod_id': productId,
+          'offer_id': offerId,
+          'discounted_price': discountedPrice,
+          'quantity': quantity,
+          'available_type': availableType,
+        },
+        onConflict: 'user_id,prod_id,available_type',
+      )
+          .select();
+
+      debugPrint("OFFER CART INSERT");
+      debugPrint(response.toString());
+    } catch (e, st) {
+      debugPrint("OFFER CART ERROR");
+      debugPrint(e.toString());
+      debugPrint(st.toString());
       rethrow;
     }
   }
@@ -35,12 +74,10 @@ class CartRemoteDatasource {
     required String productId,
     required String availableType,
   }) async {
-    final userId = client.auth.currentUser!.id;
-
     await client
         .from('cart')
         .delete()
-        .eq('user_id', userId)
+        .eq('user_id', _uid)
         .eq('prod_id', productId)
         .eq('available_type', availableType);
   }
@@ -50,29 +87,30 @@ class CartRemoteDatasource {
     required String availableType,
     required int quantity,
   }) async {
-    final userId = client.auth.currentUser!.id;
-
     await client
         .from('cart')
-        .update({'quantity': quantity})
-        .eq('user_id', userId)
+        .update({
+      'quantity': quantity,
+    })
+        .eq('user_id', _uid)
         .eq('prod_id', productId)
         .eq('available_type', availableType);
   }
 
   Future<List<Map<String, dynamic>>> fetchCart() async {
-    final userId = client.auth.currentUser!.id;
-
     final response = await client
         .from('cart')
         .select('''
-        *,
-        products(
           *,
-          product_image!product_image_prod_id_fkey(*)
-        )
-      ''')
-        .eq('user_id', userId);
+          products(
+            *,
+            product_image!product_image_prod_id_fkey(*)
+          )
+        ''')
+        .eq('user_id', _uid);
+
+    debugPrint("FETCH CART");
+    debugPrint(response.toString());
 
     return List<Map<String, dynamic>>.from(response);
   }

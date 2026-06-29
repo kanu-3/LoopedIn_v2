@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loopedin_v2/core/constants/app_colors.dart';
 import 'package:loopedin_v2/core/constants/app_enums.dart';
 import 'package:loopedin_v2/core/constants/product_constants.dart';
 import 'package:loopedin_v2/core/constants/routes_paths.dart';
@@ -150,6 +151,8 @@ class _AddProductScreenState
                 context.gapL,
 
                 AppTextField(
+
+                  focusLabelColor: AppColors.main,
                   controller:
                   titleController,
                   labelText:
@@ -308,6 +311,7 @@ class _AddProductScreenState
                 if (state.availability == product_availability.rent ||
                     state.availability == product_availability.both)
                   AppTextField(
+                    focusLabelColor: AppColors.main,
                     controller: rentPriceController,
                     labelText: "Rent Price Per Day",
                     keyboardType: TextInputType.number,
@@ -320,6 +324,7 @@ class _AddProductScreenState
                 if (state.availability == product_availability.sell ||
                     state.availability == product_availability.both)
                   AppTextField(
+                    focusLabelColor: AppColors.main,
                     controller: priceController,
                     labelText: "Price",
                     keyboardType: TextInputType.number,
@@ -332,6 +337,7 @@ class _AddProductScreenState
                 context.gapL,
 
                 AppTextField(
+                  focusLabelColor: AppColors.main,
                   controller: styleController,
                   labelText: "Style",
                 ),
@@ -339,6 +345,7 @@ class _AddProductScreenState
                 context.gapL,
 
                 AppTextField(
+                  focusLabelColor: AppColors.main,
                   controller: patternController,
                   labelText: "Pattern",
                 ),
@@ -365,6 +372,7 @@ class _AddProductScreenState
                 context.gapL,
 
                 AppTextField(
+                  focusLabelColor: AppColors.main,
                   controller:
                   brandController,
                   labelText:
@@ -374,6 +382,7 @@ class _AddProductScreenState
                 context.gapM,
 
                 AppTextField(
+                  focusLabelColor: AppColors.main,
                   controller:
                   colorController,
                   labelText:
@@ -383,6 +392,7 @@ class _AddProductScreenState
                 context.gapM,
 
                 AppTextField(
+                  focusLabelColor: AppColors.main,
                   controller:
                   fabricController,
                   labelText:
@@ -392,6 +402,7 @@ class _AddProductScreenState
                 context.gapM,
 
                 AppTextField(
+                  focusLabelColor: AppColors.main,
                   controller:
                   descriptionController,
                   labelText:
