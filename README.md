@@ -1,6 +1,6 @@
 # loopedin_v2
 
-A sustainable fashion exchange platform built with Flutter + Supabase that enables users to buy, rent, donate, and resell clothing in a social marketplace environment alongside recommendations.
+A sustainable fashion exchange platform built with Flutter + Supabase + ML that enables users to buy, rent, donate, and resell clothing in a social marketplace environment alongside recommendations.
 
 ---
 
