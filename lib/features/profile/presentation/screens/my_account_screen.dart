@@ -188,20 +188,6 @@ class MyAccountScreen extends ConsumerWidget {
                               },
                             ),
                             AccountTile(
-                              title: "My Offers",
-                              leading: Icon(AssetPaths.rewards),
-                              onTap: () {
-                                context.push(RoutePaths.offers);
-                              },
-                            ),
-                            AccountTile(
-                              title: "Donate",
-                              leading: Icon(AssetPaths.donate),
-                              onTap: () {
-                                context.push(RoutePaths.mySos);
-                              },
-                            ),
-                            AccountTile(
                               title: "My orders",
                               leading: Icon(AssetPaths.order),
                               onTap: () {
@@ -209,8 +195,22 @@ class MyAccountScreen extends ConsumerWidget {
                               },
                             ),
                             AccountTile(
-                              title: "Settings",
-                              leading: Icon(AssetPaths.settings),
+                              title: "My Offers",
+                              leading: Icon(AssetPaths.rewards),
+                              onTap: () {
+                                context.push(RoutePaths.offers);
+                              },
+                            ),
+                            AccountTile(
+                              title: "My SOS",
+                              leading: Icon(AssetPaths.emergency),
+                              onTap: () {
+                                context.push(RoutePaths.mySos);
+                              },
+                            ),
+                            AccountTile(
+                              title: "Incoming SOS",
+                              leading: Icon(AssetPaths.bell),
                               onTap: () {
                                 context.push(RoutePaths.sosFeed);
                               },

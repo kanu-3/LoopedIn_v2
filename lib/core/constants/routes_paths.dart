@@ -42,4 +42,5 @@ class RoutePaths {
   static const sosDetails= '/sosDetails';
   static const sosFeed= '/sosFeed';
   static const mySos= '/mySos';
+  static const recommendations = '/recommendations';
 }

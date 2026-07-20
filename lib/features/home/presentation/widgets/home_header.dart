@@ -56,7 +56,9 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget{
             Row(
               children: [
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    context.push(RoutePaths.recommendations);
+                  },
                   child: SizedBox(
                     width: context.scaleW(62),
                     height: context.scaleH(62),
@@ -71,7 +73,7 @@ class HomeHeader extends StatelessWidget implements PreferredSizeWidget{
                     RoutePaths.createSos,
                   );
                 },
-                    icon: Icon(AssetPaths.bell, color: AppColors.bg,)),
+                    icon: Icon(AssetPaths.emergency, color: AppColors.bg,)),
                 IconButton(onPressed: (){
                   context.push(
                     RoutePaths.cart

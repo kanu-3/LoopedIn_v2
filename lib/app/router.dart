@@ -32,6 +32,7 @@ import 'package:loopedin_v2/features/profile/presentation/screens/profile_screen
 import 'package:loopedin_v2/features/categories/presentation/screens/category_screen.dart';
 import 'package:loopedin_v2/features/products/presentation/screens/add_product_screen.dart';
 import 'package:loopedin_v2/features/profile/presentation/screens/user_profile_screen.dart';
+import 'package:loopedin_v2/features/recommendations/presentation/screens/recommendation_screen.dart';
 import 'package:loopedin_v2/features/sos/data/models/sos_model.dart';
 import 'package:loopedin_v2/features/sos/presentation/screens/accepted_users_screen.dart';
 import 'package:loopedin_v2/features/sos/presentation/screens/create_sos_screen.dart';
@@ -226,6 +227,12 @@ final router = GoRouter(
       parentNavigatorKey: rootNavigatorKey,
       path: RoutePaths.offers,
       builder: (context, state) => const OffersScreen(),
+    ),
+
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      path: RoutePaths.recommendations,
+      builder: (context, state) => const RecommendationScreen(),
     ),
 
     GoRoute(
