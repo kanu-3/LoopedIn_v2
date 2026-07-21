@@ -8,7 +8,7 @@ class RecommendationRemoteDatasource {
   RecommendationRemoteDatasource();
 
   static const String baseUrl =
-      "YOUR_RENDER_URL";
+      "https://loopedin-v2.onrender.com";
 
   Future<RecommendationResponseModel> getRecommendations({
     required String title,
