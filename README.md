@@ -200,7 +200,7 @@ lib/
 |------|------------|
 | Frontend | Flutter |
 | State Management | Riverpod (StateNotifier) |
-| Backend | Supabase |
+| Backend | Supabase + FastAPI |
 | Database | PostgreSQL (via Supabase) |
 | Storage | Supabase Storage |
 | Routing | GoRouter |
@@ -223,10 +223,7 @@ lib/
 - Offer negotiation system
 - Chat system
 - SOS expansion logic
-
-### 🟡 In Progress
 - Recommendation system
-
 
 # 🚀 Future Enhancements 
 
